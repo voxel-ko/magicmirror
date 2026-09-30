@@ -24,17 +24,46 @@
                 <p>Upcoming Events</p>
             </div>
 
-            <div class="flex flex_row h-full w-full bg-gray-600 items-center justify-center">
-                <div class="flex flex_row">
-                    <p id="temperature_degrees" class="text-4xl">59</p>
-                    <p id="temperature_unit" class="text-xl">°F</p>
+            <div class="flex flex-row h-full w-full bg-gray-600 items-center justify-center">
+                <div class="flex flex-row gap-x-4">
+                    <div class="flex flex-row">
+                        <p id="temperature_degrees" class="text-5xl">59</p>
+                        <p id="temperature_unit" class="text-xl">°F</p>
+                    </div>
+                    <div class="flex flex-col w-full h-full text-xs text-gray-300">
+                        <div class="flex flex-row">
+                            <p>Precipitation:&nbsp;</p>
+                            <p id="precipitation">100</p>
+                            <p>%</p>
+                        </div>
+                        <div class="flex flex-row text-xs">
+                            <p>Humidity:&nbsp;</p>
+                            <p id="humidity">100</p>
+                            <p>%</p>
+                        </div>
+                        <div class="flex flex-row text-xs">
+                            <p>Wind:&nbsp;</p>
+                            <p id="wind_speed">10</p>
+                            <p>&nbsp;mph</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="col-span-3"></div>
 
-            <div class="col-span-3 grid grid-cols-subgrid h-full w-full bg-gray-400 place-items-center">
-                calendar
+            <div class="col-span-3 grid grid-cols-subgrid h-full w-full bg-gray-400 place-items-center grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr]">
+                <div class="col-start-2">
+                    <div class="grid grid-cols-7 gap-x-60 place-items-center h-full w-full">
+                        <span class="">Three days ago</span>
+                        <span class="">Two days ago</span>
+                        <span class="">Yesterday</span>
+                        <span class="">Today</span>
+                        <span class="">Tomorrow</span>
+                        <span class="">Two days later</span>
+                        <span class="">Three days later</span>
+                    </div>
+                </div>
             </div>
         </div>
     </body>

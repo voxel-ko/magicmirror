@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, request
+from . import weather_data
 
 def create_app():
     app = Flask(__name__)
@@ -14,5 +15,10 @@ def create_app():
     @app.route("/")
     def root():
         return render_template("index.html")
+
+    @app.route("/api/weather_data", methods=["GET"])
+    def api_weather_data():
+
+        return weather_data.get_weather_data(ttl_hash=weather_data.get_ttl_hash())
 
     return app
