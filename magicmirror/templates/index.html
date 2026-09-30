@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3/dist/index.global.js"></script>
+    <script src="{{ url_for('static',filename='time.js') }}"></script>
+    <script src="{{ url_for('static',filename='weather.js') }}"></script>
+</head>
+    <body class="bg-black text-white">
+        <div class="grid min-h-screen grid-cols-3 gap-4 place-items-center grid-rows-[1fr_4fr_1fr]">
+            <div class="flex flex-col w-full h-full bg-gray-400 items-center justify-center">
+                <div id="day">Thursday, January 1, 1970</div>
+                <div class="flex flex-row">
+                    <p id="time" class="text-4xl">00:00</p>
+                    <div class="flex flex-col gap-y-0 items-center">
+                        <p id="seconds" class="text-sm">00</p>
+                        <p id="amPm" class="text-sm">AM</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex h-full w-full bg-gray-800 items-center justify-center">
+                <p>Upcoming Events</p>
+            </div>
+
+            <div class="flex flex_row h-full w-full bg-gray-600 items-center justify-center">
+                <div class="flex flex_row">
+                    <p id="temperature_degrees" class="text-4xl">59</p>
+                    <p id="temperature_unit" class="text-xl">°F</p>
+                </div>
+            </div>
+
+            <div class="col-span-3"></div>
+
+            <div class="col-span-3 grid grid-cols-subgrid h-full w-full bg-gray-400 place-items-center">
+                calendar
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,59 @@
+body {
+    background: black;
+    color: white;
+}
+
+.container {
+    display: grid;
+    min-height: 100vh; /* vh means viewport height which is the entire screen, while % is of the parent element size */
+
+    grid-template-areas: /* The shape of the grid */
+        "time upcoming_events weather"
+        "blank blank blank"
+        "week_calendar week_calendar week_calendar";
+    grid-template-columns: 1fr 3fr 1fr; /* The spacing between elements in a column */
+    grid-template-rows: auto 1fr auto; /* The spacing between elements in a row */
+    gap: 3px; /* Gap is the space between div objects */
+}
+
+.container div {
+    text-align: center;
+    padding: 10px;
+}
+
+.container .time {
+    grid-area: time;
+}
+
+.clock {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+}
+
+.time #day {
+    font-size: 1rem;
+}
+
+.clock #time {
+    font-size: 2rem;
+}
+
+.clock #seconds {
+    font-size: 1rem;
+}
+
+.container .upcoming_events {
+    grid-area: upcoming_events;
+}
+
+.container .weather {
+    grid-area: weather;
+}
+
+.container .blank {
+    grid-area: blank;
+}
+
+.container .week_calendar {
+    grid-area: week_calendar;
+}
