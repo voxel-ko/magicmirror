@@ -15,7 +15,7 @@ function updateTime() {
     document.getElementById('amPm').innerText = amPm;
 }
 
-window.addEventListener('load', function() {
+window.addEventListener("load", function() {
     setInterval(updateTime, 1000);
     updateTime();
 })

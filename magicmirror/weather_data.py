@@ -8,7 +8,7 @@ def get_hour():
     return int(datetime.datetime.now().strftime("%H"))
 
 def get_geolocation():
-    url = "http://ip-api.com/json"
+    url = "https://ip-api.com/json"
 
     request = requests.get(url)
     request_json = request.json()
@@ -19,9 +19,10 @@ def get_geolocation():
     return latitude, longitude
 
 @lru_cache(maxsize=1)
-def get_weather_data(*, ttl_hash=None):
+def get_weather_data(logger=None, ttl_hash=None):
     del ttl_hash
-    current_app.logger.info("Weather API - Calling Open Meteo")
+    if logger:
+        logger.info("Weather API - Calling Open Meteo")
 
     url = "https://api.open-meteo.com/v1/forecast"
 

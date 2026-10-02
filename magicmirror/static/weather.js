@@ -9,7 +9,6 @@ async function updateWeather() {
     fetch(`/api/weather_data`, {method: "GET"})
         .then(function(response) {return response.json()})
         .then(function(json) {
-            console.log(json);
             const temperature = json.temperature;
             const temperature_unit = json.temperature_unit;
             const precipitation = json.precipitation;
@@ -21,10 +20,10 @@ async function updateWeather() {
             document.getElementById("precipitation").innerText = precipitation;
             document.getElementById("humidity").innerText = humidity;
             document.getElementById("wind_speed").innerText = wind_speed;
-        })
+        });
 }
 
-window.addEventListener('load', function() {
+window.addEventListener("load", function() {
     setInterval(updateWeather, 900000); // Update every hour, only get 10000 API calls a day
     updateWeather();
-})
+});
