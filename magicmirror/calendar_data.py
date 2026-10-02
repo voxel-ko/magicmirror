@@ -3,7 +3,8 @@ from datetime import date, timedelta
 def create_day_data(date: date):
     return {
         "Day": date.strftime("%A"),
-        "DayShort": date.strftime("%A")[0:3]
+        "DayShort": date.strftime("%A")[0:3],
+        "DayDate": date.day
     }
 
 def get_week():

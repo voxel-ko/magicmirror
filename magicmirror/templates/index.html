@@ -10,7 +10,7 @@
 </head>
     <body class="bg-black text-white">
         <div class="grid min-h-screen grid-cols-3 gap-4 place-items-center grid-rows-[1fr_4fr_1fr]">
-            <div class="flex flex-col w-full h-full bg-gray-400 items-center justify-center">
+            <div class="flex flex-col w-full h-full items-center justify-center">
                 <div id="day">Thursday, January 1, 1970</div>
                 <div class="flex flex-row">
                     <p id="time" class="text-4xl">00:00</p>
@@ -21,11 +21,11 @@
                 </div>
             </div>
 
-            <div class="flex h-full w-full bg-gray-800 items-center justify-center">
+            <div class="flex h-full w-full items-center justify-center">
                 <p>Upcoming Events</p>
             </div>
 
-            <div class="flex flex-row h-full w-full bg-gray-600 items-center justify-center">
+            <div class="flex flex-row h-full w-full items-center justify-center">
                 <div class="flex flex-row gap-x-4">
                     <div class="flex flex-row">
                         <p id="temperature_degrees" class="text-5xl">59</p>
@@ -53,39 +53,27 @@
 
             <div class="col-span-3"></div>
 
-            <div class="col-span-3 grid grid-cols-subgrid h-full w-full bg-gray-400 place-items-center grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr]">
-                <div class="col-start-2">
-                    <div class="grid grid-cols-7 gap-x-60 place-items-center h-full w-full">
-                        <div class="flex flex-col place-items-center">
-                            <span id="today-3-day">Three days ago</span>
-                            <span id="today-3-date">0</span>
-                        </div>
-                        <div class="flex flex-col place-items-center">
-                            <span id="today-2-day">Two days ago</span>
-                            <span id="today-2-date">1</span>
-                        </div>
-                        <div class="flex flex-col place-items-center">
-                            <span id="today-1-day">Yesterday</span>
-                            <span id="today-1-date">2</span>
-                        </div>
-                        <div class="flex flex-col place-items-center">
-                            <span id="today-day">Today</span>
-                            <span id="today-date">3</span>
-                        </div>
-                        <div class="flex flex-col place-items-center">
-                            <span id="today+1-day">Tomorrow</span>
-                            <span id="today+1-date">4</span>
-                        </div>
-                        <div class="flex flex-col place-items-center">
-                            <span id="today+2-day">Two days later</span>
-                            <span id="today+2-date">5</span>
-                        </div>
-                        <div class="flex flex-col place-items-center">
-                            <span id="today+3-day">Three days later</span>
-                            <span id="today+3-date">6</span>
-                        </div>
+            <div class="col-span-3 flex h-full w-full justify-between items-center gap-5">
+                <!--<div class="h-full w-full"></div>-->
+                {% for i in range(-3, 4) %}
+                <div class="flex flex-col place-items-center justify-center place-content-evenly h-full w-full">
+                    <div class="flex flex-col min-h-2/3 place-items-center justify-center">
+                        {% if i < 0 %}
+                            <p id="today{{ i }}-day">{{ i }}</p>
+                            <p id="today{{ i }}-date">{{ i }}</p>
+                        {% elif i == 0 %}
+                            <p id="today-day">{{ i }}</p>
+                            <p id="today-date">{{ i }}</p>
+                        {% else %}
+                            <p id="today+{{ i }}-day">{{ i }}</p>
+                            <p id="today+{{ i }}-date">{{ i }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="flex flex-col min-h-1/3 place-items-center justify-center">
                     </div>
                 </div>
+                {% endfor %}
+                <!--<div class="h-full w-full"></div>-->
             </div>
         </div>
     </body>
