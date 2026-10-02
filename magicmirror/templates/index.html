@@ -6,6 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3/dist/index.global.js"></script>
     <script src="{{ url_for('static',filename='time.js') }}"></script>
     <script src="{{ url_for('static',filename='weather.js') }}"></script>
+    <script src="{{ url_for('static',filename='calendar.js') }}"></script>
 </head>
     <body class="bg-black text-white">
         <div class="grid min-h-screen grid-cols-3 gap-4 place-items-center grid-rows-[1fr_4fr_1fr]">
@@ -55,13 +56,34 @@
             <div class="col-span-3 grid grid-cols-subgrid h-full w-full bg-gray-400 place-items-center grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_1fr]">
                 <div class="col-start-2">
                     <div class="grid grid-cols-7 gap-x-60 place-items-center h-full w-full">
-                        <span class="">Three days ago</span>
-                        <span class="">Two days ago</span>
-                        <span class="">Yesterday</span>
-                        <span class="">Today</span>
-                        <span class="">Tomorrow</span>
-                        <span class="">Two days later</span>
-                        <span class="">Three days later</span>
+                        <div class="flex flex-col place-items-center">
+                            <span id="today-3-day">Three days ago</span>
+                            <span id="today-3-date">0</span>
+                        </div>
+                        <div class="flex flex-col place-items-center">
+                            <span id="today-2-day">Two days ago</span>
+                            <span id="today-2-date">1</span>
+                        </div>
+                        <div class="flex flex-col place-items-center">
+                            <span id="today-1-day">Yesterday</span>
+                            <span id="today-1-date">2</span>
+                        </div>
+                        <div class="flex flex-col place-items-center">
+                            <span id="today-day">Today</span>
+                            <span id="today-date">3</span>
+                        </div>
+                        <div class="flex flex-col place-items-center">
+                            <span id="today+1-day">Tomorrow</span>
+                            <span id="today+1-date">4</span>
+                        </div>
+                        <div class="flex flex-col place-items-center">
+                            <span id="today+2-day">Two days later</span>
+                            <span id="today+2-date">5</span>
+                        </div>
+                        <div class="flex flex-col place-items-center">
+                            <span id="today+3-day">Three days later</span>
+                            <span id="today+3-date">6</span>
+                        </div>
                     </div>
                 </div>
             </div>

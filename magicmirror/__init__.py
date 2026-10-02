@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request
-from . import weather_data
+from . import weather_data, calendar_data
 
 def create_app():
     app = Flask(__name__)
@@ -18,7 +18,10 @@ def create_app():
 
     @app.route("/api/weather_data", methods=["GET"])
     def api_weather_data():
+        return weather_data.get_weather_data(logger=app.logger, ttl_hash=weather_data.get_ttl_hash())
 
-        return weather_data.get_weather_data(ttl_hash=weather_data.get_ttl_hash())
+    @app.route("/api/week_data", methods=["GET"])
+    def api_week_data():
+        return calendar_data.get_week()
 
     return app
