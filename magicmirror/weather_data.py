@@ -43,7 +43,7 @@ def get_weather_data(logger=None, ttl_hash=None):
 
     weather_data = {
         "temperature": request_json["current"]["temperature_2m"],
-        "temperature_unit": f"°{params["temperature_unit"][0].upper()}",
+        "temperature_unit": f"°{params['temperature_unit'][0].upper()}",
         "precipitation": request_json["current"]["precipitation"],
         "relative_humidity_2m": request_json["current"]["relative_humidity_2m"],
         "wind_speed_10m": request_json["current"]["wind_speed_10m"]
