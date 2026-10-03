@@ -21,7 +21,6 @@ function updateCalendar() {
         .then(function(json) {
             for (let i = 0; i < Math.min(json.length, 4); i++) {
                 const event = json[i];
-                console.log(event);
                 const event_name = event.Name;
                 const event_days = event.Days;
 
@@ -36,6 +35,12 @@ function updateCalendar() {
                     }
                 })
             }
+        });
+
+    fetch("/api/upcoming_events", {method: "GET"})
+        .then(function(response) {return response.text()})
+        .then(function(html) {
+            document.getElementById("events-list").innerHTML = html;
         });
 }
 
