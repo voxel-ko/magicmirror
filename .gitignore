@@ -7,3 +7,6 @@ __pycache__/
 
 # calendar files
 *.ics
+
+#config
+config.json
