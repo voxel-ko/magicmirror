@@ -9,7 +9,7 @@ from . import config
 
 def get_geolocation() -> tuple[int, int, str]:
     """
-    :return: A tuple containing latitude and longitude of the server obtained from its public IP address
+    :return: A tuple containing latitude, longitude, and timezone of the server obtained from its public IP address
     """
     url = "http://ip-api.com/json"  # Can't use SSL/HTTPS without paying, it worked before for some reason
 

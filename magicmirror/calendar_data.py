@@ -54,7 +54,7 @@ def events_around_date(search_events: Calendar, start_range: int = 1, end_range:
             days = []
             # Don't include anything outside the range of -3, 3 as it might mess up javascript looping
             for i in range(max(-3, start), min(3, end + 1)):  # Want to include the end
-                sign = "-" if i <= 0 else "+"
+                sign = "+" if i > 0 else ""
                 element_id = f"today{sign}{i}-event"
                 days.append(element_id)
 

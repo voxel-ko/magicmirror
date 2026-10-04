@@ -4,6 +4,9 @@ function updateDay(day_id, json) {
 }
 
 function updateCalendar() {
+    // TODO: have this take from the config somehow
+    const max_events_per_day = 3;
+
     fetch("/api/week_days", {method: "GET"})
         .then(function(response) {return response.json()})
         .then(function(json) {
@@ -24,19 +27,22 @@ function updateCalendar() {
                 const event_name = event.Name;
                 const event_days = event.Days;
 
-                // The code below is so terrible, I know that if I ever change how many events there can be I'll have to improve this
                 event_days.forEach(function(value, index, array) {
-                    if (document.getElementById(`${value}-0`).innerText.trim() == "") {
-                        document.getElementById(`${value}-0`).innerText = event_name;
-                    } else  if (document.getElementById(`${value}-1`).innerText == "") {
-                        document.getElementById(`${value}-1`).innerText = event_name;
-                    } else if (document.getElementById(`${value}-2`).innerText == "") {
-                        document.getElementById(`${value}-2`).innerText = event_name
+                    // value = "today-{day}-event"
+
+                    // `${value}-count` is a hidden <p> element
+                    // that each day has that stores the amount of events that day currently has
+                    const event_count = Number(document.getElementById(`${value}-count`).innerText);
+
+                    if (event_count <= max_events_per_day) {
+                        document.getElementById(`${value}s`).innerHTML += `<p>${event_name}</p>`;
+                        document.getElementById(`${value}-count`).innerText = event_count + 1;
                     }
                 })
             }
         });
 
+    // The API makes the html already
     fetch("/api/upcoming_events", {method: "GET"})
         .then(function(response) {return response.text()})
         .then(function(html) {
