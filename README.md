@@ -9,6 +9,11 @@ $ flask --app magicmirror run
 
 # Configuration
 
+To recreate the default config.json file, run:
+```
+$ python3 magicmirror/config.py
+```
+
 ## Calendar Events
 place a `.ics` file in the `magicmirror` directory in order to have events show up
 
