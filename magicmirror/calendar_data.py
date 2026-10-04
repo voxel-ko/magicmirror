@@ -4,7 +4,7 @@ from datetime import date, timedelta
 from zoneinfo import ZoneInfo
 
 import arrow
-from ics import Calendar
+from ics import Calendar, Event
 
 from . import config
 
@@ -47,7 +47,7 @@ def events_around_date(search_events: Calendar, start_range: int = 1, end_range:
         begin_time = event.begin.to(tz=timezone)
         end_time = event.end.to(tz=timezone)
 
-        if begin_time.is_between(start_date, end_date) or end_time.is_between(start_date, end_date):
+        if event.intersects(Event(begin=start_date, end=end_date)):
             # Get the Unix Epoch of date, convert to days
             # Subtract today in days from start and end in days to get the difference in days without worrying about mouths
             _today = today.timestamp() // 86400
@@ -55,9 +55,10 @@ def events_around_date(search_events: Calendar, start_range: int = 1, end_range:
             start = int((begin_time.timestamp() // 86400) - _today)
             end = int((end_time.timestamp() // 86400) - _today)
 
-            # Don't include anything outside the range of -3, 3 as it might mess up javascript looping
-            for i in range(max(-3, start), min(3, end + 1)):  # Want to include the end
-                sign = "+" if i > 0 else ""
+            # Don't include anything outside the range of -3, 4 as it might mess up javascript looping
+            # min(4) so that it includes wednesday
+            for i in range(max(-3, start), min(4, end + 1)):  # Want to include the end
+                sign = "+" if i > 0 else "-" if i == 0 else ""
                 element_id = f"today{sign}{i}-events"
                 week[element_id] = week.get(element_id, [])
                 week[element_id].append(event.name)
@@ -70,8 +71,6 @@ def events_around_date(search_events: Calendar, start_range: int = 1, end_range:
             html += f"<p>{event}</p>\n"
 
         week_json[day] = html
-
-    print(week_json)
 
     return week_json
 
