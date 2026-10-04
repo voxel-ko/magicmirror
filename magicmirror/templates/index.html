@@ -82,21 +82,23 @@
                             <p id="today+{{ i }}-date">{{ i }}</p>
                         {% endif %}
                     </div>
-                    <div class="flex flex-col min-h-1/3 place-items-center justify-center">
-                    {% for j in range(0, 3) %}
-                        {% if i < 0 %}
-                            <p id="today{{ i }}-event-{{ j }}"></p>
-                        {% elif i == 0 %}
-                            <p id="today-{{ i }}-event-{{ j }}"></p>
-                        {% else %}
-                            <p id="today+{{ i }}-event-{{ j }}"></p>
-                        {% endif %}
-                    {% endfor %}
+                    {% if i < 0 %}
+                    <div class="flex flex-col min-h-1/3 place-items-center justify-center" id="today{{ i }}-events">
+                        <p class="hidden" id="today{{ i }}-event-count">0</p>
+                    </div>
+                    {% elif i == 0 %}
+                    <div class="flex flex-col min-h-1/3 place-items-center justify-center" id="today-{{ i }}-events">
+                        <p class="hidden" id="today-{{ i }}-event-count">0</p>
+                    </div>
+                    {% else %}
+                    <div class="flex flex-col min-h-1/3 place-items-center justify-center" id="today+{{ i }}-events">
+                        <p class="hidden" id="today+{{ i }}-event-count">0</p>
+                    </div>
+                    {% endif %}
                     <!--
                     Currently, each day can hold three events with 23 characters each without the sizing of anything needing to be changed
                     The above for loop initializes these three events, each with their own id for changing
                     -->
-                    </div>
                 </div>
                 {% endfor %}
                 <!--<div class="h-full w-full"></div>-->

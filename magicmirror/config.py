@@ -11,6 +11,7 @@ class Config:
     timezone: str
     speed_unit: str
     temperature_unit: str
+    max_events_per_day: int
 
 
 config: Config = Config(
@@ -18,7 +19,8 @@ config: Config = Config(
     longitude=0,
     timezone="UTC",
     speed_unit="kmh",
-    temperature_unit="celsius"
+    temperature_unit="celsius",
+    max_events_per_day=3
 )
 
 
@@ -64,7 +66,8 @@ def init(root_path):
         longitude=longitude,
         timezone=timezone,
         speed_unit=json_data.get("speed_unit") or config.speed_unit,
-        temperature_unit=json_data.get("temperature_unit") or config.speed_unit
+        temperature_unit=json_data.get("temperature_unit") or config.speed_unit,
+        max_events_per_day=json_data.get("max_events_per_day") or config.max_events_per_day
     )
 
 
