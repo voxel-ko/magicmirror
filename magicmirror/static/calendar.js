@@ -19,27 +19,16 @@ function updateCalendar() {
             updateDay("today+3", json[6]);
         });
 
+    // The API returns a JSON dict of day element ids and HTML
     fetch("/api/week_events", {method: "GET"})
         .then(function(response) {return response.json()})
         .then(function(json) {
-            for (let i = 0; i < Math.min(json.length, 4); i++) {
-                const event = json[i];
-                const event_name = event.Name;
-                const event_days = event.Days;
+            Object.entries(json).forEach(function(k) {
+                event_id = k[0];
+                html = k[1];
 
-                event_days.forEach(function(value, index, array) {
-                    // value = "today-{day}-event"
-
-                    // `${value}-count` is a hidden <p> element
-                    // that each day has that stores the amount of events that day currently has
-                    const event_count = Number(document.getElementById(`${value}-count`).innerText);
-
-                    if (event_count <= max_events_per_day) {
-                        document.getElementById(`${value}s`).innerHTML += `<p>${event_name}</p>`;
-                        document.getElementById(`${value}-count`).innerText = event_count + 1;
-                    }
-                })
-            }
+                document.getElementById(event_id).innerHTML = html;
+            });
         });
 
     // The API makes the html already
