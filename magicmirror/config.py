@@ -2,6 +2,7 @@ import json
 import os
 
 from dataclasses import dataclass
+from logging import Logger
 
 
 @dataclass(frozen=True)
@@ -23,6 +24,13 @@ config: Config = Config(
     max_events_per_day=3
 )
 
+def create_default_config():
+    config_json = json.dumps(config.__dict__, indent=4)
+
+    directory_path = os.path.dirname(os.path.realpath(__file__))
+
+    with open(os.path.join(directory_path, "config.json"), "w") as file:
+        file.write(config_json)
 
 def grab_geolocation_data(json_data):
     from . import weather_data
@@ -51,8 +59,15 @@ def grab_geolocation_data(json_data):
     return latitude, longitude, timezone
 
 
-def init(root_path):
+def init(root_path, logger: Logger = None):
     global config
+
+    directory_path = os.path.dirname(os.path.realpath(__file__))
+    if not os.path.exists(os.path.join(directory_path, "config.json")):
+        if logger:
+            logger.warning("config.json file does not exist, creating default one")
+        create_default_config()
+
 
     with open(os.path.join(root_path, "config.json"), "r") as f:
         file_contents = f.read()
@@ -75,7 +90,4 @@ if __name__ == "__main__":
     if input("Override config.json with defaults? (y/N) ").lower() != "y":
         exit()
 
-    json = json.dumps(config.__dict__, indent=4)
-
-    with open("config.json", "w") as file:
-        file.write(json)
+    create_default_config()

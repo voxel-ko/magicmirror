@@ -8,7 +8,7 @@ from . import weather_data, calendar_data, config
 def create_app():
     app = Flask(__name__)
 
-    config.init(app.root_path)
+    config.init(app.root_path, logger=app.logger)
 
     @app.route("/")
     def root():
