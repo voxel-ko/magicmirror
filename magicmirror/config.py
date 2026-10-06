@@ -1,9 +1,11 @@
 import json
 import os
+import re
 
 from dataclasses import dataclass
-from logging import Logger
+import logging
 
+logger = logging.getLogger(__name__)
 
 @dataclass(frozen=True)
 class Config:
@@ -58,16 +60,36 @@ def grab_geolocation_data(json_data):
 
     return latitude, longitude, timezone
 
+def get_config_option(user_config, option, regex=None):
+    user_option = user_config.get(option)
+    default_option = getattr(config, option)
 
-def init(root_path, logger: Logger = None):
+    if regex is None:
+        return user_option or default_option
+
+    match = re.match(regex, str(user_option))
+    # I have no clue why it won't just let me do `if match` to check if there's an actual match
+    if match and sum(match.span()) != 0:
+        group_dict = match.groupdict()
+
+        value = next(filter(
+            lambda group: group_dict[group] is not None,
+            group_dict
+        ))
+    else:
+        logger.warning("Could not find value for %s in config, falling back to default",
+                                    str(option), exc_info=True)
+        value = default_option
+
+    return value
+
+def init(root_path):
     global config
 
     directory_path = os.path.dirname(os.path.realpath(__file__))
     if not os.path.exists(os.path.join(directory_path, "config.json")):
-        if logger:
-            logger.warning("config.json file does not exist, creating default one")
+        logger.warning("config.json file does not exist, creating default one")
         create_default_config()
-
 
     with open(os.path.join(root_path, "config.json"), "r") as f:
         file_contents = f.read()
@@ -80,9 +102,11 @@ def init(root_path, logger: Logger = None):
         latitude=latitude,
         longitude=longitude,
         timezone=timezone,
-        speed_unit=json_data.get("speed_unit") or config.speed_unit,
-        temperature_unit=json_data.get("temperature_unit") or config.speed_unit,
-        max_events_per_day=json_data.get("max_events_per_day") or config.max_events_per_day
+        speed_unit=get_config_option(json_data, "speed_unit",
+     r"(?P<kmh>^(kmh)?(kilometers)?$)?(?P<ms>^(ms)(miles)?$)?"),
+        temperature_unit=get_config_option(json_data, "temperature_unit",
+    r"(?P<fahrenheit>^(f)(ah)?(renheit)?$)?(?P<celsius>^(c)(el)?(sius)?$)?"),
+        max_events_per_day=int(get_config_option(json_data, "max_events_per_day"))
     )
 
 
