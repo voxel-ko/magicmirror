@@ -103,7 +103,7 @@ def init(root_path):
         longitude=longitude,
         timezone=timezone,
         speed_unit=get_config_option(json_data, "speed_unit",
-     r"(?P<kmh>^(kmh)?(kilometers)?$)?(?P<ms>^(ms)(miles)?$)?"),
+     r"(?P<kmh>^(kmh)?(kilometers)?$)?(?P<ms>^(ms)?(miles)?$)?"),
         temperature_unit=get_config_option(json_data, "temperature_unit",
     r"(?P<fahrenheit>^(f)(ah)?(renheit)?$)?(?P<celsius>^(c)(el)?(sius)?$)?"),
         max_events_per_day=int(get_config_option(json_data, "max_events_per_day"))
