@@ -10,13 +10,17 @@ def create_app():
 
     config.init(app.root_path)
 
+    # Prefill cache
+    calendar_data.read_calendar(app.root_path)
+    weather_data.get_weather_data()
+
     @app.route("/")
     def root():
         return render_template("index.html")
 
     @app.route("/api/weather_data", methods=["GET"])
     def api_weather_data():
-        return weather_data.get_weather_data(logger=app.logger)
+        return weather_data.get_weather_data()
 
     @app.route("/api/week_days", methods=["GET"])
     def api_week_days():
@@ -24,17 +28,17 @@ def create_app():
 
     @app.route("/api/week_events", methods=["GET"])
     def api_week_events():
-        with open(os.path.join(app.root_path, "basic.ics"), "r") as file:
-            file_data = file.read()
+        calendar = calendar_data.read_calendar(app.root_path)
+        events = calendar.events
 
-        return calendar_data.events_around_date(calendar_data.read_calendar(file_data), 3, 3)
+        return calendar_data.events_around_date(events, 3, 3)
 
     @app.route("/api/upcoming_events", methods=["GET"])
     def api_upcoming_events():
-        with open(os.path.join(app.root_path, "basic.ics"), "r") as file:
-            file_data = file.read()
+        calendar = calendar_data.read_calendar(app.root_path)
+        events = calendar.events
 
-        return calendar_data.upcoming_events(calendar_data.read_calendar(file_data), 365, 3)
+        return calendar_data.upcoming_events(events, 365, 3)
 
     @app.route("/api/config", methods=["GET"])
     def api_config():

@@ -1,38 +1,50 @@
 import json
-import math
+import time
 from datetime import date, timedelta
+from functools import lru_cache
 from zoneinfo import ZoneInfo
 
+import ics
+from flask import current_app as app
+import os
+
 import arrow
-from ics import Calendar, Event
+from ics import Calendar, Event, event
 
 from . import config
 
+def get_ttl_hash(seconds=900):
+    return round(time.time() / seconds)
 
-def read_calendar(text: str):
+@lru_cache(maxsize=1)
+def read_calendar(root_path, ttl_hash=get_ttl_hash()):
     """
-    Turns a string representation of a .ics file into a calendar object
+    Reads and caches the Calendar object created from reading a file
+    :param root_path: The directory holding a file called basic.ics to read from
+    :param ttl_hash: Ensures that the cache only updates every 15 minutes
+    :return: A ics Calendar object built from that file
+    """
+    del ttl_hash
+    calendar_file = "basic.ics"
 
-    :param text: string representation of a .ics file
-    :return: Calendar object from ics library
-    """
-    cal = Calendar(text)
+    with open(os.path.join(root_path, calendar_file), "r") as file:
+        file_data = file.read()
+
+    cal = Calendar(file_data)
 
     assert cal is not None
 
     return cal
 
-
-def events_around_date(search_events: Calendar, start_range: int = 1, end_range: int = 1):
+def events_around_date(search_events: set[ics.Event], start_range: int = 1, end_range: int = 1):
     """
     Returns a list of events and the days that those events appear on
 
-    :param search_events: The calendar that events are being pulled from
+    :param search_events: The events that come from Calendar.events
     :param start_range: The first day that events can appear
     :param end_range: The last day that events can appear
     :return: List of dictionary containing the events name and the days that it should be placed on
     """
-    search_events = search_events.events
 
     week = {}
     week_json = {}
@@ -74,17 +86,15 @@ def events_around_date(search_events: Calendar, start_range: int = 1, end_range:
 
     return week_json
 
-
-def upcoming_events(search_events: Calendar, end_range: int = 1, max_events: int = 1):
+def upcoming_events(search_events: set[ics.Event], end_range: int = 1, max_events: int = 1):
     """
     Creates an HTML representation of events that are going to start/end in the future
 
-    :param search_events: The calendar that events are being pulled from
+    :param search_events: The events that come from Calendar.events
     :param end_range: The max amount of days to search for events
     :param max_events: The max amount of events to return
     :return: HTML representation of returned events
     """
-    search_events = search_events.events
 
     html = ""
 

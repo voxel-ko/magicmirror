@@ -1,11 +1,13 @@
 import json
 import time
 from functools import lru_cache
+import logging
 
 import requests
 
 from . import config
 
+logger = logging.getLogger(__name__)
 
 def get_geolocation() -> tuple[int, int, str]:
     """
@@ -29,7 +31,7 @@ def get_ttl_hash(seconds=900):
 
 
 @lru_cache(maxsize=1)
-def get_weather_data(logger=None, ttl_hash=get_ttl_hash()):
+def get_weather_data(ttl_hash=get_ttl_hash()):
     """
     Calls open-meteo's API to get weather data and then formats it as a JSON object
 
@@ -38,8 +40,7 @@ def get_weather_data(logger=None, ttl_hash=get_ttl_hash()):
     :return: A JSON object containing data about the current weather
     """
     del ttl_hash
-    if logger:
-        logger.info("Weather API - Calling Open Meteo")
+    logger.info("Weather API - Calling Open Meteo")
 
     url = "https://api.open-meteo.com/v1/forecast"
 
