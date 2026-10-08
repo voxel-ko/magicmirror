@@ -14,5 +14,8 @@ dist
 dist-ssr
 *.local
 
+# tailwindcss
+*.css
+
 #config
 config.json

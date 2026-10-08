@@ -5,6 +5,7 @@
   },
   "scripts": {
     "start": ".venv/bin/flask --app magicmirror run",
-    "test": ".venv/bin/flask --app magicmirror --debug run"
+    "test": ".venv/bin/flask --app magicmirror --debug run",
+    "build": "npm install; echo ''; npx @tailwindcss/cli -o ./magicmirror/static/style.css --watch"
   }
 }
