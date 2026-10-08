@@ -4,6 +4,7 @@ from datetime import date, timedelta
 from functools import lru_cache
 from zoneinfo import ZoneInfo
 
+import ics
 from flask import current_app as app
 import os
 
@@ -17,6 +18,12 @@ def get_ttl_hash(seconds=900):
 
 @lru_cache(maxsize=1)
 def read_calendar(root_path, ttl_hash=get_ttl_hash()):
+    """
+    Reads and caches the Calendar object created from reading a file
+    :param root_path: The directory holding a file called basic.ics to read from
+    :param ttl_hash: Ensures that the cache only updates every 15 minutes
+    :return: A ics Calendar object built from that file
+    """
     del ttl_hash
     calendar_file = "basic.ics"
 
@@ -29,7 +36,7 @@ def read_calendar(root_path, ttl_hash=get_ttl_hash()):
 
     return cal
 
-def events_around_date(search_events, start_range: int = 1, end_range: int = 1):
+def events_around_date(search_events: set[ics.Event], start_range: int = 1, end_range: int = 1):
     """
     Returns a list of events and the days that those events appear on
 
@@ -79,7 +86,7 @@ def events_around_date(search_events, start_range: int = 1, end_range: int = 1):
 
     return week_json
 
-def upcoming_events(search_events, end_range: int = 1, max_events: int = 1):
+def upcoming_events(search_events: set[ics.Event], end_range: int = 1, max_events: int = 1):
     """
     Creates an HTML representation of events that are going to start/end in the future
 
