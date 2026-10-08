@@ -11,12 +11,15 @@
     <body class="bg-black text-white">
         <div class="grid min-h-screen grid-cols-3 gap-4 place-items-center grid-rows-[1fr_3fr_1fr]">
             <div class="flex flex-col w-full h-full items-center justify-center">
-                <div id="day">Thursday, January 1, 1970</div>
-                <div class="flex flex-row">
-                    <p id="time" class="text-4xl">00:00</p>
-                    <div class="flex flex-col gap-y-0 items-center">
-                        <p id="seconds" class="text-sm">00</p>
-                        <p id="amPm" class="text-sm">AM</p>
+                <div class="scale-110">
+                    <div class="justify-start" id="day">Thursday, January 1, 1970</div>
+
+                    <div class="flex flex-row items-cente mr-auto"> <!-- margin_right-auto consumes all space to the left -->
+                        <p id="time" class="text-5xl">00:00</p>
+                        <div class="flex flex-col gap-y-0 items-center">
+                            <p id="seconds" class="text-base">00</p>
+                            <p id="amPm" class="text-base">AM</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -39,7 +42,7 @@
             </div>
 
             <div class="flex flex-row h-full w-full items-center justify-center">
-                <div class="flex flex-row gap-x-4">
+                <div class="flex flex-row gap-x-4 scale-110">
                     <div class="flex flex-row">
                         <p id="temperature_degrees" class="text-5xl">59</p>
                         <p id="temperature_unit" class="text-xl">°F</p>
@@ -66,7 +69,7 @@
 
             <div class="col-span-3"></div>
 
-            <div class="col-span-3 flex h-full w-full justify-between items-center gap-5">
+            <div class="col-span-3 flex h-full w-full justify-between items-center gap-5 align-start">
                 <!--<div class="h-full w-full"></div>-->
                 {% for i in range(-3, 4) %}
                 <div class="flex flex-col place-items-center justify-center place-content-evenly h-full w-full gap-y-5">
@@ -75,6 +78,7 @@
                             <p id="today{{ i }}-day">{{ i }}</p>
                             <p id="today{{ i }}-date">{{ i }}</p>
                         {% elif i == 0 %}
+                            <span class="mb-auto scale-200">&bull;</span>
                             <p id="today-day">{{ i }}</p>
                             <p id="today-date">{{ i }}</p>
                         {% else %}
