@@ -8,5 +8,11 @@ __pycache__/
 # calendar files
 *.ics
 
+#nodejs
+node_modules
+dist
+dist-ssr
+*.local
+
 #config
 config.json
