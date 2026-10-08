@@ -24,17 +24,17 @@ def create_app():
 
     @app.route("/api/week_events", methods=["GET"])
     def api_week_events():
-        with open(os.path.join(app.root_path, "basic.ics"), "r") as file:
-            file_data = file.read()
+        calendar = calendar_data.read_calendar()
+        events = calendar.events
 
-        return calendar_data.events_around_date(calendar_data.read_calendar(file_data), 3, 3)
+        return calendar_data.events_around_date(events, 3, 3)
 
     @app.route("/api/upcoming_events", methods=["GET"])
     def api_upcoming_events():
-        with open(os.path.join(app.root_path, "basic.ics"), "r") as file:
-            file_data = file.read()
+        calendar = calendar_data.read_calendar()
+        events = calendar.events
 
-        return calendar_data.upcoming_events(calendar_data.read_calendar(file_data), 365, 3)
+        return calendar_data.upcoming_events(events, 365, 3)
 
     @app.route("/api/config", methods=["GET"])
     def api_config():
