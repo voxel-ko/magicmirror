@@ -56,8 +56,8 @@ def events_around_date(search_events: set[ics.Event], start_range: int = 1, end_
     end_date = today.shift(days=start_range)
 
     for event in sorted(search_events):
-        begin_time = event.begin.to(tz=timezone)
-        end_time = event.end.to(tz=timezone)
+        begin_time = event.begin.to(tz=timezone).shift(seconds=1)
+        end_time = event.end.to(tz=timezone).shift(seconds=-1)
 
         if event.intersects(Event(begin=start_date, end=end_date)):
             # Get the Unix Epoch of date, convert to days
