@@ -16,9 +16,8 @@ def get_ttl_hash(seconds=900):
     return round(time.time() / seconds)
 
 @lru_cache(maxsize=1)
-def read_calendar(ttl_hash=get_ttl_hash()):
+def read_calendar(root_path, ttl_hash=get_ttl_hash()):
     del ttl_hash
-    root_path = str(app.root_path)
     calendar_file = "basic.ics"
 
     with open(os.path.join(root_path, calendar_file), "r") as file:

@@ -10,11 +10,14 @@ def create_app():
 
     config.init(app.root_path)
 
+    # Prefill cache
+    calendar_data.read_calendar(app.root_path)
+    weather_data.get_weather_data()
+
     @app.route("/")
     def root():
         return render_template("index.html")
 
-    weather_data.get_weather_data() # Prefill cache
     @app.route("/api/weather_data", methods=["GET"])
     def api_weather_data():
         return weather_data.get_weather_data()
@@ -25,14 +28,14 @@ def create_app():
 
     @app.route("/api/week_events", methods=["GET"])
     def api_week_events():
-        calendar = calendar_data.read_calendar()
+        calendar = calendar_data.read_calendar(app.root_path)
         events = calendar.events
 
         return calendar_data.events_around_date(events, 3, 3)
 
     @app.route("/api/upcoming_events", methods=["GET"])
     def api_upcoming_events():
-        calendar = calendar_data.read_calendar()
+        calendar = calendar_data.read_calendar(app.root_path)
         events = calendar.events
 
         return calendar_data.upcoming_events(events, 365, 3)
