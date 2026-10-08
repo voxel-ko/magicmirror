@@ -14,9 +14,10 @@ def create_app():
     def root():
         return render_template("index.html")
 
+    weather_data.get_weather_data() # Prefill cache
     @app.route("/api/weather_data", methods=["GET"])
     def api_weather_data():
-        return weather_data.get_weather_data(logger=app.logger)
+        return weather_data.get_weather_data()
 
     @app.route("/api/week_days", methods=["GET"])
     def api_week_days():
