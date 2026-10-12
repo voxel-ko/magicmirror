@@ -31,7 +31,7 @@ def get_ttl_hash(seconds=900):
 
 
 @lru_cache(maxsize=1)
-def get_weather_data(ttl_hash=get_ttl_hash()):
+def get_weather_data(ttl_hash=None):
     """
     Calls open-meteo's API to get weather data and then formats it as a JSON object
 

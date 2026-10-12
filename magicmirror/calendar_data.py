@@ -17,7 +17,7 @@ def get_ttl_hash(seconds=900):
     return round(time.time() / seconds)
 
 @lru_cache(maxsize=1)
-def read_calendar(root_path, ttl_hash=get_ttl_hash()):
+def read_calendar(root_path, ttl_hash=None):
     """
     Reads and caches the Calendar object created from reading a file
     :param root_path: The directory holding a file called basic.ics to read from
