@@ -75,27 +75,30 @@
                 <div class="flex flex-col place-items-center justify-center place-content-evenly h-full w-full gap-y-5">
                     <div class="flex flex-col min-h-1/3 place-items-center justify-center">
                         {% if i < 0 %}
-                            <p id="today{{ i }}-day">{{ i }}</p>
+                            <p id="today{{ i }}-day" class="font-bold">{{ i }}</p>
                             <p id="today{{ i }}-date">{{ i }}</p>
                         {% elif i == 0 %}
-                            <span class="mb-auto scale-200">&bull;</span>
-                            <p id="today-day">{{ i }}</p>
+                            <div class="flex flex-row gap-3">
+                                <p class="scale-200 font-bold">&bull;</p>
+                                <p id="today-day" class="font-bold">{{ i }}</p>
+                                <p class="scale-200 font-bold">&bull;</p>
+                            </div>
                             <p id="today-date">{{ i }}</p>
                         {% else %}
-                            <p id="today+{{ i }}-day">{{ i }}</p>
+                            <p id="today+{{ i }}-day" class="font-bold">{{ i }}</p>
                             <p id="today+{{ i }}-date">{{ i }}</p>
                         {% endif %}
                     </div>
                     {% if i < 0 %}
-                    <div class="flex flex-col min-h-1/3 place-items-center justify-center" id="today{{ i }}-events">
+                    <div class="flex flex-col min-h-1/3 place-items-center justify-center mb-auto" id="today{{ i }}-events">
                         <p class="hidden" id="today{{ i }}-event-count">0</p>
                     </div>
                     {% elif i == 0 %}
-                    <div class="flex flex-col min-h-1/3 place-items-center justify-center" id="today-{{ i }}-events">
+                    <div class="flex flex-col min-h-1/3 place-items-center justify-center mb-auto" id="today-{{ i }}-events">
                         <p class="hidden" id="today-{{ i }}-event-count">0</p>
                     </div>
                     {% else %}
-                    <div class="flex flex-col min-h-1/3 place-items-center justify-center" id="today+{{ i }}-events">
+                    <div class="flex flex-col min-h-1/3 place-items-center justify-center mb-auto" id="today+{{ i }}-events">
                         <p class="hidden" id="today+{{ i }}-event-count">0</p>
                     </div>
                     {% endif %}
