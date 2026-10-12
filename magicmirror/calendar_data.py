@@ -80,7 +80,7 @@ def events_around_date(search_events: set[ics.Event], start_range: int = 1, end_
         html = ""
         for i in range(min(max_events_per_day, len(events))):
             event = events[i]
-            html += f"<p>{event}</p>\n"
+            html += f"<p >&bull;&nbsp;{event}</p>\n"
 
         week_json[day] = html
 
@@ -116,9 +116,9 @@ def upcoming_events(search_events: set[ics.Event], end_range: int = 1, max_event
             time_string = f"starts {begin_time.humanize()}" if starting else f"ends {end_time.humanize()}"
 
             html += f"""
-            <div>
-                <p class="flex justify-start whitespace-nowrap overflow-hidden">{event.name}</p>
-                <p class="flex justify-end">{time_string}</p>
+            <div class="flex flex-col">
+                <p class="flex mr-auto whitespace-nowrap overflow-hidden">&bull;&nbsp;{event.name}</p>
+                <p class="flex ml-auto">{time_string}</p>
             </div>
             """
 
