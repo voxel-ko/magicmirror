@@ -1,17 +1,18 @@
 import json
+import logging
+import os
 import time
 from datetime import date, timedelta
 from functools import lru_cache
 from zoneinfo import ZoneInfo
 
-import ics
-from flask import current_app as app
-import os
-
 import arrow
-from ics import Calendar, Event, event
+import ics
+from ics import Calendar, Event
 
 from . import config
+
+logger = logging.Logger(__name__)
 
 def get_ttl_hash(seconds=900):
     return round(time.time() / seconds)
@@ -27,14 +28,16 @@ def read_calendar(root_path, ttl_hash=None):
     del ttl_hash
     calendar_file = "basic.ics"
 
-    with open(os.path.join(root_path, calendar_file), "r") as file:
-        file_data = file.read()
+    try:
+        with open(os.path.join(root_path, calendar_file), "r") as file:
+            file_data = file.read()
 
-    cal = Calendar(file_data)
+        cal = Calendar(file_data)
 
-    assert cal is not None
-
-    return cal
+        return cal
+    except OSError:
+        logger.warning("Could not load calendar files, creating empty calendar.")
+        return Calendar()
 
 def events_around_date(search_events: set[ics.Event], start_range: int = 1, end_range: int = 1):
     """
