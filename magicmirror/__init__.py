@@ -11,7 +11,7 @@ def create_app():
     config.init(app.root_path)
 
     # Prefill cache
-    calendar_data.read_calendar(app.root_path, ttl_hash=calendar_data.get_ttl_hash())
+    calendar_data.read_calendar(app.static_folder, ttl_hash=calendar_data.get_ttl_hash())
     weather_data.get_weather_data(ttl_hash=weather_data.get_ttl_hash())
 
     @app.route("/")
@@ -28,14 +28,14 @@ def create_app():
 
     @app.route("/api/week_events", methods=["GET"])
     def api_week_events():
-        calendar = calendar_data.read_calendar(app.root_path, ttl_hash=calendar_data.get_ttl_hash())
+        calendar = calendar_data.read_calendar(app.static_folder, ttl_hash=calendar_data.get_ttl_hash())
         events = calendar.events
 
         return calendar_data.events_around_date(events, 3, 3)
 
     @app.route("/api/upcoming_events", methods=["GET"])
     def api_upcoming_events():
-        calendar = calendar_data.read_calendar(app.root_path, ttl_hash=calendar_data.get_ttl_hash())
+        calendar = calendar_data.read_calendar(app.static_folder, ttl_hash=calendar_data.get_ttl_hash())
         events = calendar.events
 
         return calendar_data.upcoming_events(events, 365, 3)
