@@ -1,17 +1,18 @@
 import json
+import logging
 import time
 from datetime import date, timedelta
 from functools import lru_cache
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
-import ics
-from flask import current_app as app
-import os
-
 import arrow
-from ics import Calendar, Event, event
+import ics
+from ics import Calendar, Event
 
 from . import config
+
+logger = logging.Logger(__name__)
 
 def get_ttl_hash(seconds=900):
     return round(time.time() / seconds)
@@ -25,16 +26,19 @@ def read_calendar(root_path, ttl_hash=None):
     :return: A ics Calendar object built from that file
     """
     del ttl_hash
-    calendar_file = "basic.ics"
+    combined_calendar = Calendar()
+    calendar_files = Path(root_path).glob("*.ics")
 
-    with open(os.path.join(root_path, calendar_file), "r") as file:
-        file_data = file.read()
+    for calendar_file in calendar_files:
+        try:
+            with open(calendar_file, "r") as file:
+                calendar = Calendar(file.read())
+                combined_calendar.events = combined_calendar.events.union(calendar.events)
+        except PermissionError:
+            logger.warning("No permission to open calendar file, %s, skipping.", calendar_file.name)
+            continue
 
-    cal = Calendar(file_data)
-
-    assert cal is not None
-
-    return cal
+    return combined_calendar
 
 def events_around_date(search_events: set[ics.Event], start_range: int = 1, end_range: int = 1):
     """

@@ -15,7 +15,7 @@ $ python3 magicmirror/config.py
 ```
 
 ## Calendar Events
-place a `.ics` file in the `magicmirror` directory in order to have events show up
+Place any `.ics` file in the  `magicmirror/static` directory in order to have events show up
 
 ## Config File
 latitude/longitude:
